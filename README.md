@@ -37,9 +37,11 @@ or manually: place `osceval.el` in your `load-path`, then run
 
 ## usage
 
-start osceval: `M-x osceval-start`
+to start osceval: `M-x osceval-start`
 
-stop osceval: `M-x osceval-stop`
+with default settings, you can now send an OSC message with address `/eval`, and a single string argument containing the code to evaluate, to `127.0.0.1:9473`.
+
+to stop osceval: `M-x osceval-stop`
 
 ## configuration
 
@@ -84,3 +86,37 @@ in many cases, it is useful to evaluate code in an interactive context, in the c
 ```
 
 (note: the function `osceval-message` is used to print messages in the osceval process buffer)
+
+## examples
+
+these are written in [SuperCollider](https://supercollider.github.io/).
+
+### start a Tidal pattern with a MIDI CC button
+
+(using [`tidal.el`](https://github.com/tidalcycles/Tidal/blob/dev/tidal.el) and the [custom `osceval-handler`](#osceval-handler))
+
+```supercollider
+(
+~emacsOsceval = NetAddr("127.0.0.1", 9473);
+
+MIDIdef.cc(\tidalRunD1, { |val|
+    if(val > 0) {
+        ~emacsOsceval.sendMsg("/eval-in-window", "(tidal-run-d1)");
+    }
+}, ccNum: 32, chan: 1);
+)
+```
+
+### insert MIDI note numbers with MIDI keyboard
+
+```supercollider
+(
+~emacsOsceval = NetAddr("127.0.0.1", 9473);
+
+MIDIdef.noteOn(\insertNote, { |val, num|
+    if(val > 0) {
+        ~emacsOsceval.sendMsg("/eval-in-window", "(progn (insert (number-to-string %)) (insert \" \"))" .format(num));
+    }
+}, chan: 0);
+)
+```
