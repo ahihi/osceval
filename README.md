@@ -20,6 +20,8 @@ using osceval might be preferable when any of the following apply:
 
 ## installation
 
+you will also need the [osc](https://elpa.gnu.org/packages/osc.html) package.
+
 using [straight.el](https://github.com/radian-software/straight.el):
 
 ```elisp
