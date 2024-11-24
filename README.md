@@ -67,7 +67,7 @@ the default handler handles messages of the form `/eval <code>`, directly evalua
 
 in many cases, it is useful to evaluate code in an interactive context, in the currently active window's buffer. the following custom handler defines an additional `/eval-in-window` message which achieves this:
 
-```elisp
+```elisp!
 (defun pulu-osceval-handler (path &rest args)
   (pcase path
     ("/eval" (let ((code (nth 0 args)))
@@ -95,7 +95,7 @@ these are written in [SuperCollider](https://supercollider.github.io/).
 
 (using [`tidal.el`](https://github.com/tidalcycles/Tidal/blob/dev/tidal.el) and the [custom `osceval-handler`](#osceval-handler))
 
-```supercollider
+```supercollider!
 (
 ~emacsOsceval = NetAddr("127.0.0.1", 9473);
 
@@ -109,7 +109,7 @@ MIDIdef.cc(\tidalRunD1, { |val|
 
 ### insert MIDI note numbers with MIDI keyboard
 
-```supercollider
+```supercollider!
 (
 ~emacsOsceval = NetAddr("127.0.0.1", 9473);
 
